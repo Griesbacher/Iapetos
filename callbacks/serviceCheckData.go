@@ -21,13 +21,13 @@ func ServiceCheckData(callbackType int, data unsafe.Pointer) int {
 		prom.ChecksActive.Inc()
 	} else if service.Type == neb.ServicecheckProcessed {
 		spew.Dump("---------")
-		//spew.Dump(service)
+		spew.Dump(service)
 		//Increment global counter
 		prom.CheckResults.Inc()
 
 		identifier := prometheus.Labels{
 			"host_name":           service.HostName,
-			"service_description": service.ServiceDescription,
+			"service_description": service.Description,
 			"command_name":        service.CommandName,
 		}
 

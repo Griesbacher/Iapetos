@@ -11,7 +11,7 @@ var ChecksActive = prometheus.NewCounter(
 	prometheus.CounterOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemChecks,
-		Name:      "active",
+		Name:      "active_total",
 		Help:      "Amount of active checks executed",
 	})
 
@@ -20,7 +20,7 @@ var CheckResults = prometheus.NewCounter(
 	prometheus.CounterOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemChecks,
-		Name:      "results",
+		Name:      "results_total",
 		Help:      "Amount of check results received",
 	})
 
@@ -40,7 +40,7 @@ var CheckExecutionTime = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemChecks,
-		Name:      "execution_time",
+		Name:      "execution_time_seconds",
 		Help:      "ExecutionTime of a check in seconds",
 	},
 	checkLabelNames,
@@ -51,7 +51,7 @@ var CheckLatency = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemChecks,
-		Name:      "latency",
+		Name:      "latency_seconds",
 		Help:      "Latency of a check in seconds",
 	},
 	checkLabelNames,
