@@ -18,7 +18,19 @@ var ServiceChecksResults = prometheus.NewCounter(
 		Help:      "Amount of servicecheck results received",
 	})
 
+//ServiceCheckReturnCode is a Prometheus counter vector
+var ServiceCheckReturnCode = prometheus.NewCounterVec(
+	prometheus.CounterOpts{
+		Namespace: namespace_core,
+		Subsystem: subsystem_events,
+		Name:      "servicecheck_result_returncode",
+		Help:      "Amount of servicecheck which certain returncode",
+	},
+	[]string{"code"},
+)
+
 func initServiceCheckData() {
 	prometheus.MustRegister(ServiceChecksActive)
 	prometheus.MustRegister(ServiceChecksResults)
+	prometheus.MustRegister(ServiceCheckReturnCode)
 }
