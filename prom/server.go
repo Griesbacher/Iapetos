@@ -10,8 +10,7 @@ import (
 )
 
 const (
-	namespace_core   = "core"
-	subsystem_events = "events"
+	namespaceCore = "iapetos"
 )
 
 func handleMainPage(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +36,6 @@ func InitPrometheus(address string) (net.Listener, error) {
 		mux.HandleFunc("/", handleMainPage)
 		http.Serve(prometheusListener, mux)
 	}()
-	initHostCheckData()
-	initServiceCheckData()
+	initCheckData()
 	return prometheusListener, nil
 }
