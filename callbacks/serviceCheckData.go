@@ -5,7 +5,6 @@ import (
 
 	"github.com/ConSol/go-neb-wrapper/neb"
 	"github.com/ConSol/go-neb-wrapper/neb/structs"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/griesbacher/Iapetos/prom"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -20,8 +19,6 @@ func ServiceCheckData(callbackType int, data unsafe.Pointer) int {
 	if service.Type == neb.ServicecheckInitiate {
 		prom.ChecksActive.Inc()
 	} else if service.Type == neb.ServicecheckProcessed {
-		spew.Dump("---------")
-		spew.Dump(service)
 		//Increment global counter
 		prom.CheckResults.Inc()
 

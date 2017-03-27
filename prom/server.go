@@ -37,5 +37,6 @@ func InitPrometheus(address string) (net.Listener, error) {
 		http.Serve(prometheusListener, mux)
 	}()
 	initCheckData()
+	initIapetos()
 	return prometheusListener, nil
 }

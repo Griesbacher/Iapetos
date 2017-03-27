@@ -23,6 +23,10 @@ var prometheusListener net.Listener
 
 //This is an example main file, which should demonstrate how to use the library.
 func init() {
+
+	//Start selfobserving
+	callbacks.StartSelfObserver()
+
 	// just some information about your plugin
 	neb.Title = "Iapetos"
 	neb.Name = neb.Title
@@ -68,7 +72,10 @@ func init() {
 		nlog.CoreLog(fmt.Sprintf("[%s] Deinit\n", neb.Title))
 		nlog.CoreLog(fmt.Sprintf("[%s] Deinit flags: %d\n", neb.Title, flags))
 		nlog.CoreLog(fmt.Sprintf("[%s] Deinit reason: %d\n", neb.Title, reason))
+
+		callbacks.StopSelfObserver()
 		prometheusListener.Close()
+
 		return neb.Ok
 	}
 }
