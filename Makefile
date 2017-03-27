@@ -4,7 +4,7 @@ MAKE:=make
 SHELL:=bash
 GOVERSION:=$(shell go version | awk '{print $$3}' | sed 's/^go\([0-9]\.[0-9]\).*/\1/')
 
-all: deps fmt cyclo mispell build_all
+all: deps fmt cyclo misspell build_all
 
 deps: versioncheck
 
@@ -52,9 +52,9 @@ citest: deps
 	if grep -r TODO: *.go; then exit 1; fi
 	$(MAKE) lint
 	$(MAKE) cyclo
-	$(MAKE) mispell
+	$(MAKE) misspell
 	#
-	# All CI tests successfull
+	# All CI tests successful
 	#
 
 benchmark: fmt
@@ -111,7 +111,7 @@ cyclo:
 	#
 	gocyclo -over 15 .
 
-mispell:
+misspell:
 	go get github.com/client9/misspell/cmd/misspell
 	#
 	# Check if there are common spell errors.
