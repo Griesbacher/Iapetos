@@ -10,7 +10,7 @@ deps: versioncheck
 
 updatedeps: versioncheck
 
-build_naemon:
+build_naemon: cyclo misspell
 	go build -tags naemon -buildmode=c-shared -ldflags "-s -w -X main.Build=$(shell git rev-parse --short HEAD)" -o iapetos_naemon
 
 build_nagios3:
