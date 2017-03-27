@@ -9,6 +9,11 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
+const (
+	namespace_core   = "core"
+	subsystem_events = "events"
+)
+
 func handleMainPage(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, `
 <HTML>
@@ -32,6 +37,7 @@ func InitPrometheus(address string) (net.Listener, error) {
 		mux.HandleFunc("/", handleMainPage)
 		http.Serve(prometheusListener, mux)
 	}()
-	initHostData()
+	initHostCheckData()
+	initServiceCheckData()
 	return prometheusListener, nil
 }

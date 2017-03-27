@@ -14,7 +14,7 @@ func HostCheckData(callbackType int, data unsafe.Pointer) int {
 	}
 	host := structs.CastHostCheck(data)
 	if host.Type == neb.HostcheckInitiate {
-		prom.ActiveHostChecks.Add(1)
+		prom.HostChecksActive.Add(1)
 	}
 	if host.Type == neb.HostcheckProcessed {
 		prom.HostResults.Add(1)

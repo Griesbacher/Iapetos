@@ -31,10 +31,11 @@ func init() {
 	neb.Version = fmt.Sprintf("0.1 - %s", Build)
 	neb.Author = "Philip Griesbacher"
 
-	//There can be multiple of them
+	//Set callbacks
 	neb.AddCallback(neb.HostCheckData, callbacks.HostCheckData)
+	neb.AddCallback(neb.ServiceCheckData, callbacks.ServiceCheckData)
 
-	//Init Hook Example
+	//Init Hook
 	neb.NebModuleInitHook = func(flags int, args string) int {
 		nlog.CoreLog(fmt.Sprintf("[%s] Init\n", neb.Title))
 		nlog.CoreLog(fmt.Sprintf("[%s] Init flags: %d\n", neb.Title, flags))
@@ -62,7 +63,7 @@ func init() {
 		return neb.Error
 	}
 
-	//Deinit Hook Example
+	//Deinit Hook
 	neb.NebModuleDeinitHook = func(flags, reason int) int {
 		nlog.CoreLog(fmt.Sprintf("[%s] Deinit\n", neb.Title))
 		nlog.CoreLog(fmt.Sprintf("[%s] Deinit flags: %d\n", neb.Title, flags))
@@ -70,7 +71,6 @@ func init() {
 		prometheusListener.Close()
 		return neb.Ok
 	}
-
 }
 
 //DON'T USE MAIN, IT WILL NEVER BE CALLED! USE CALLBACKS.

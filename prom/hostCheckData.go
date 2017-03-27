@@ -2,16 +2,11 @@ package prom
 
 import "github.com/prometheus/client_golang/prometheus"
 
-const (
-	namespace_core = "core"
-	subsystem_events = "events"
-)
-
-var ActiveHostChecks = prometheus.NewCounter(
+var HostChecksActive = prometheus.NewCounter(
 	prometheus.CounterOpts{
 		Namespace: namespace_core,
 		Subsystem: subsystem_events,
-		Name:      "active_hostcheck",
+		Name:      "hostchecks_active",
 		Help:      "Amount of active hostchecks executed",
 	})
 
@@ -20,10 +15,10 @@ var HostResults = prometheus.NewCounter(
 		Namespace: namespace_core,
 		Subsystem: subsystem_events,
 		Name:      "hostcheck_results",
-		Help:      "Amount of hostcheck results recived",
+		Help:      "Amount of hostcheck results received",
 	})
 
-func initHostData() {
-	prometheus.MustRegister(ActiveHostChecks)
+func initHostCheckData() {
+	prometheus.MustRegister(HostChecksActive)
 	prometheus.MustRegister(HostResults)
 }
