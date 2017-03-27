@@ -1,0 +1,6 @@
+logging:
+  file: ""
+  level: "Debug"
+
+prometheus:
+  address: ":9988"

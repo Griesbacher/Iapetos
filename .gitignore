@@ -22,3 +22,17 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+#IDE:
+.idea/
+
+#Testfolder
+test
+
+#Your config
+config.yaml
+
+#Buildobjects
+iapetos_naemon
+iapetos_nagios3
+iapetos_nagios4
