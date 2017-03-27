@@ -33,6 +33,7 @@ test
 config.yaml
 
 #Buildobjects
+iapetos
 iapetos_naemon
 iapetos_nagios3
 iapetos_nagios4
