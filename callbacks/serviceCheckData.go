@@ -4,6 +4,7 @@ import (
 	"unsafe"
 
 	"github.com/ConSol/go-neb-wrapper/neb"
+	"github.com/ConSol/go-neb-wrapper/neb/nlog"
 	"github.com/ConSol/go-neb-wrapper/neb/structs"
 	"github.com/griesbacher/Iapetos/prom"
 	"github.com/prometheus/client_golang/prometheus"
@@ -25,7 +26,7 @@ func ServiceCheckData(callbackType int, data unsafe.Pointer) int {
 		identifier := prometheus.Labels{
 			"host_name":           service.HostName,
 			"service_description": service.Description,
-			"command_name":        service.CommandName,
+			"command_name":        service.Command,
 		}
 
 		prom.CheckReturnCode.With(identifier).Set(float64(service.ReturnCode))
