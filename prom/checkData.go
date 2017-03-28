@@ -147,7 +147,7 @@ var CheckPerfBytes = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemChecks,
-		Name:      "performance_data_seconds",
+		Name:      "performance_data_bytes",
 		Help:      "Performance data with bytes as unit",
 	},
 	performanceDataLabelNames,
