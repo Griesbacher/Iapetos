@@ -2,9 +2,17 @@ package prom
 
 import "github.com/prometheus/client_golang/prometheus"
 
-const subsystemChecks = "checks"
+const (
+	subsystemChecks    = "checks"
+	HostName           = "host_name"
+	ServiceDescription = "service_description"
+	CommandName        = "command_name"
+	Type               = "type"
+	Label              = "label"
+)
 
-var checkLabelNames = []string{"host_name", "service_description", "command_name"}
+var checkLabelNames = []string{HostName, ServiceDescription, CommandName}
+var performanceDataLabelNames = []string{HostName, ServiceDescription, CommandName, Type, Label}
 
 //ChecksActive is a Prometheus counter
 var ChecksActive = prometheus.NewCounter(
@@ -35,7 +43,7 @@ var CheckReturnCode = prometheus.NewGaugeVec(
 	checkLabelNames,
 )
 
-//CheckExecutionTime is a Prometheus counter vector
+//CheckExecutionTime is a Prometheus gauge vector
 var CheckExecutionTime = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
@@ -46,7 +54,7 @@ var CheckExecutionTime = prometheus.NewGaugeVec(
 	checkLabelNames,
 )
 
-//CheckLatency is a Prometheus counter vector
+//CheckLatency is a Prometheus gauge vector
 var CheckLatency = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
@@ -57,7 +65,7 @@ var CheckLatency = prometheus.NewGaugeVec(
 	checkLabelNames,
 )
 
-//CheckCurrentAttempt is a Prometheus counter vector
+//CheckCurrentAttempt is a Prometheus gauge vector
 var CheckCurrentAttempt = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
@@ -68,7 +76,7 @@ var CheckCurrentAttempt = prometheus.NewGaugeVec(
 	checkLabelNames,
 )
 
-//CheckMaxAttempts is a Prometheus counter vector
+//CheckMaxAttempts is a Prometheus gauge vector
 var CheckMaxAttempts = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
@@ -79,7 +87,7 @@ var CheckMaxAttempts = prometheus.NewGaugeVec(
 	checkLabelNames,
 )
 
-//CheckState is a Prometheus counter vector
+//CheckState is a Prometheus gauge vector
 var CheckState = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
@@ -90,7 +98,7 @@ var CheckState = prometheus.NewGaugeVec(
 	checkLabelNames,
 )
 
-//CheckStateType is a Prometheus counter vector
+//CheckStateType is a Prometheus gauge vector
 var CheckStateType = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
@@ -99,6 +107,39 @@ var CheckStateType = prometheus.NewGaugeVec(
 		Help:      "StateType of a check",
 	},
 	checkLabelNames,
+)
+
+//CheckPerfGauge is a Prometheus gauge vector
+var CheckPerfGauge = prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemChecks,
+		Name:      "performance_data",
+		Help:      "Performance data with unknown unit",
+	},
+	performanceDataLabelNames,
+)
+
+//CheckPerfPercent is a Prometheus gauge vector
+var CheckPerfPercent = prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemChecks,
+		Name:      "performance_data_percent",
+		Help:      "Performance data with percent as unit",
+	},
+	performanceDataLabelNames,
+)
+
+//CheckPerfSeconds is a Prometheus gauge vector
+var CheckPerfSeconds = prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemChecks,
+		Name:      "performance_data_seconds",
+		Help:      "Performance data with seconds as unit",
+	},
+	performanceDataLabelNames,
 )
 
 func initCheckData() {
@@ -111,4 +152,7 @@ func initCheckData() {
 	prometheus.MustRegister(CheckMaxAttempts)
 	prometheus.MustRegister(CheckState)
 	prometheus.MustRegister(CheckStateType)
+	prometheus.MustRegister(CheckPerfGauge)
+	prometheus.MustRegister(CheckPerfPercent)
+	prometheus.MustRegister(CheckPerfSeconds)
 }

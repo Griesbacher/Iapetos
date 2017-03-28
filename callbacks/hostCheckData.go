@@ -5,9 +5,12 @@ import (
 
 	"github.com/ConSol/go-neb-wrapper/neb"
 	"github.com/ConSol/go-neb-wrapper/neb/structs"
+	"github.com/griesbacher/Iapetos/helper"
 	"github.com/griesbacher/Iapetos/prom"
 	"github.com/prometheus/client_golang/prometheus"
 )
+
+const serviceDescription = "host_check"
 
 func HostCheckData(callbackType int, data unsafe.Pointer) int {
 	if callbackType != neb.HostCheckData {
@@ -23,10 +26,12 @@ func HostCheckData(callbackType int, data unsafe.Pointer) int {
 		prom.CheckResults.Inc()
 
 		identifier := prometheus.Labels{
-			"host_name":           host.HostName,
-			"service_description": "host_check",
-			"command_name":        host.CommandName,
+			prom.HostName:           host.HostName,
+			prom.ServiceDescription: serviceDescription,
+			prom.CommandName:        host.CommandName,
 		}
+
+		setPerformanceData(host.PerfData, helper.CopyLabels(identifier))
 
 		prom.CheckReturnCode.With(identifier).Set(float64(host.ReturnCode))
 		prom.CheckExecutionTime.With(identifier).Set(host.ExecutionTime)
