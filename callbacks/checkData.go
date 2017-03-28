@@ -19,6 +19,8 @@ func setPerformanceData(perfData string, labels prometheus.Labels) {
 		switch p.Unit {
 		case "%", "percent", "pct":
 			setGaugeValues(p.Data, defaultFactor, labels, prom.CheckPerfPercent)
+		case "b":
+			setGaugeValues(p.Data, defaultFactor, labels, prom.CheckPerfBytes)
 		case "ms":
 			setGaugeValues(p.Data, msToSeconds, labels, prom.CheckPerfSeconds)
 		case "s":

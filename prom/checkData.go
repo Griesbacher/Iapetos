@@ -142,6 +142,17 @@ var CheckPerfSeconds = prometheus.NewGaugeVec(
 	performanceDataLabelNames,
 )
 
+//CheckPerfBytes is a Prometheus gauge vector
+var CheckPerfBytes = prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemChecks,
+		Name:      "performance_data_seconds",
+		Help:      "Performance data with bytes as unit",
+	},
+	performanceDataLabelNames,
+)
+
 func initCheckData() {
 	prometheus.MustRegister(ChecksActive)
 	prometheus.MustRegister(CheckResults)
@@ -155,4 +166,5 @@ func initCheckData() {
 	prometheus.MustRegister(CheckPerfGauge)
 	prometheus.MustRegister(CheckPerfPercent)
 	prometheus.MustRegister(CheckPerfSeconds)
+	prometheus.MustRegister(CheckPerfBytes)
 }
