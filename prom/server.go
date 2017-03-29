@@ -14,6 +14,7 @@ const (
 	HostName           = "host_name"
 	ServiceDescription = "service_description"
 	CommandName        = "command_name"
+	Type               = "type"
 )
 
 func handleMainPage(w http.ResponseWriter, r *http.Request) {

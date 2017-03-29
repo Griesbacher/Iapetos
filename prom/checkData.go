@@ -4,7 +4,6 @@ import "github.com/prometheus/client_golang/prometheus"
 
 const (
 	subsystemChecks = "checks"
-	Type            = "type"
 	Label           = "label"
 )
 
