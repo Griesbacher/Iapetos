@@ -14,7 +14,6 @@ func ServiceCheckData(callbackType int, data unsafe.Pointer) int {
 	if callbackType != neb.ServiceCheckData {
 		return neb.Error
 	}
-	prom.CheckTotal.Inc()
 
 	service := structs.CastServiceCheck(data)
 
