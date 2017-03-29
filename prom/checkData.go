@@ -3,12 +3,9 @@ package prom
 import "github.com/prometheus/client_golang/prometheus"
 
 const (
-	subsystemChecks    = "checks"
-	HostName           = "host_name"
-	ServiceDescription = "service_description"
-	CommandName        = "command_name"
-	Type               = "type"
-	Label              = "label"
+	subsystemChecks = "checks"
+	Type            = "type"
+	Label           = "label"
 )
 
 var checkLabelNames = []string{HostName, ServiceDescription, CommandName}
@@ -23,7 +20,16 @@ var ChecksActive = prometheus.NewCounter(
 		Help:      "Amount of active checks executed",
 	})
 
-//Results is a Prometheus counter
+//CheckTotal is a Prometheus counter
+var CheckTotal = prometheus.NewCounter(
+	prometheus.CounterOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemChecks,
+		Name:      "checks_total",
+		Help:      "Total of all checks",
+	})
+
+//CheckResults is a Prometheus counter
 var CheckResults = prometheus.NewCounter(
 	prometheus.CounterOpts{
 		Namespace: namespaceCore,

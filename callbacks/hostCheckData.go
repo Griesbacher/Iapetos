@@ -16,6 +16,7 @@ func HostCheckData(callbackType int, data unsafe.Pointer) int {
 	if callbackType != neb.HostCheckData {
 		return neb.Error
 	}
+	prom.CheckTotal.Inc()
 
 	host := structs.CastHostCheck(data)
 

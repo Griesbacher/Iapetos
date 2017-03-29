@@ -10,7 +10,10 @@ import (
 )
 
 const (
-	namespaceCore = "iapetos"
+	namespaceCore      = "iapetos"
+	HostName           = "host_name"
+	ServiceDescription = "service_description"
+	CommandName        = "command_name"
 )
 
 func handleMainPage(w http.ResponseWriter, r *http.Request) {
@@ -38,5 +41,6 @@ func InitPrometheus(address string) (net.Listener, error) {
 	}()
 	initCheckData()
 	initIapetos()
+	initNotificationCheckData()
 	return prometheusListener, nil
 }
