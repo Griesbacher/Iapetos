@@ -11,6 +11,14 @@ var ModuleDuration = prometheus.NewHistogramVec(
 		Subsystem: subsystemNebModule,
 		Name:      "callback_durations_seconds",
 		Help:      "Time in seconds for by each callback type",
+		Buckets: []float64{
+			.00001, .00005,
+			.0001, .0005,
+			.001, .005,
+			.01, .05,
+			.1, .5,
+			1, 1.5,
+			2},
 	},
 	[]string{"type"},
 )

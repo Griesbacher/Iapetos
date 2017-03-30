@@ -1,7 +1,6 @@
 package callbacks
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/ConSol/go-neb-wrapper/neb"
@@ -32,14 +31,15 @@ func StartSelfObserver() {
 			case registeredCallbacks := <-stats.RegisteredCallbacksByType:
 				for callbackType, amount := range registeredCallbacks {
 					prom.ModuleCallbacks.
-						With(prometheus.Labels{"type": fmt.Sprint(callbackType)}).
+						With(prometheus.Labels{"type": neb.CallbackTypeToString(callbackType)}).
 						Set(float64(amount))
 				}
 			case callbackDuration := <-stats.OverallCallbackDuration:
 				for callbackType, amount := range callbackDuration {
 					prom.ModuleDuration.
-						With(prometheus.Labels{"type": fmt.Sprint(callbackType)}).
+						With(prometheus.Labels{"type": neb.CallbackTypeToString(callbackType)}).
 						Observe(amount.Seconds())
+
 				}
 			}
 		}
