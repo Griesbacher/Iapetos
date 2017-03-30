@@ -24,6 +24,7 @@ func handleMainPage(w http.ResponseWriter, r *http.Request) {
 <BODY>
 	<h2>Hi, this is the landingpage of Iapetos.</h2>
 	<p>The data you are looking for: <a href="/metrics">metrics</a></p>
+	<p><a href="https://github.com/Griesbacher/Iapetos">Github</a></p>
 </BODY>
 </HTML>`)
 }
@@ -43,5 +44,6 @@ func InitPrometheus(address string) (net.Listener, error) {
 	initCheckData()
 	initIapetos()
 	initNotificationCheckData()
+	initContactNotificationCheckData()
 	return prometheusListener, nil
 }

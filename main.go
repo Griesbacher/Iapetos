@@ -38,6 +38,8 @@ func init() {
 	//Set callbacks
 	neb.AddCallback(neb.HostCheckData, callbacks.HostCheckData)
 	neb.AddCallback(neb.ServiceCheckData, callbacks.ServiceCheckData)
+	neb.AddCallback(neb.NotificationData, callbacks.NotificationCheckData)
+	neb.AddCallback(neb.ContactNotificationData, callbacks.ContactNotificationCheckData)
 
 	//Init Hook
 	neb.NebModuleInitHook = func(flags int, args string) int {
