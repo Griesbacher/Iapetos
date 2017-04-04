@@ -9,49 +9,44 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-var stop chan bool
-
-func StartSelfObserver() {
-	if stop != nil {
-		return
-	} else {
-		stop = make(chan bool)
-	}
-	go func() {
-		stats := &neb.Statistics{
-			RegisteredCallbacksByType: make(chan map[int]int, 1000),
-			OverallCallbackDuration:   make(chan map[int]time.Duration, 1000),
-		}
-		neb.Stats = stats
-	Loop:
-		for {
-			select {
-			case <-stop:
-				break Loop
-			case registeredCallbacks := <-stats.RegisteredCallbacksByType:
-				for callbackType, amount := range registeredCallbacks {
-					prom.ModuleCallbacks.
-						With(prometheus.Labels{"type": neb.CallbackTypeToString(callbackType)}).
-						Set(float64(amount))
-				}
-			case callbackDuration := <-stats.OverallCallbackDuration:
-				for callbackType, amount := range callbackDuration {
-					prom.ModuleDuration.
-						With(prometheus.Labels{"type": neb.CallbackTypeToString(callbackType)}).
-						Observe(amount.Seconds())
-
-				}
-			}
-		}
-		logging.GetLogger().Info("Stopping SelfObserver")
-		stop <- true
-	}()
+//SelfObserver monitors the neb callbacks
+type SelfObserver struct {
+	Stoppable
 }
 
-func StopSelfObserver() {
-	if stop == nil {
-		return
+func (s SelfObserver) run() {
+	stats := &neb.Statistics{
+		RegisteredCallbacksByType: make(chan map[int]int, 1000),
+		OverallCallbackDuration:   make(chan map[int]time.Duration, 1000),
 	}
-	stop <- true
-	<-stop
+	neb.Stats = stats
+Loop:
+	for {
+		select {
+		case <-s.stop:
+			break Loop
+		case registeredCallbacks := <-stats.RegisteredCallbacksByType:
+			for callbackType, amount := range registeredCallbacks {
+				prom.ModuleCallbacks.
+					With(prometheus.Labels{"type": neb.CallbackTypeToString(callbackType)}).
+					Set(float64(amount))
+			}
+		case callbackDuration := <-stats.OverallCallbackDuration:
+			for callbackType, amount := range callbackDuration {
+				prom.ModuleDuration.
+					With(prometheus.Labels{"type": neb.CallbackTypeToString(callbackType)}).
+					Observe(amount.Seconds())
+
+			}
+		}
+	}
+	logging.GetLogger().Info("Stopping SelfObserver")
+	s.stop <- true
+}
+
+//StartSelfObserver creates an new SelfObserver and starts it
+func StartSelfObserver() Stoppable {
+	s := SelfObserver{Stoppable{stop: make(chan bool)}}
+	go s.run()
+	return s.Stoppable
 }
