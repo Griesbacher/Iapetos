@@ -1,4 +1,4 @@
-package callbacks
+package cyclic
 
 import (
 	"time"

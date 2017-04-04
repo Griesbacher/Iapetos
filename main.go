@@ -8,6 +8,7 @@ import (
 	"github.com/ConSol/go-neb-wrapper/neb"
 	"github.com/griesbacher/Iapetos/callbacks"
 	"github.com/griesbacher/Iapetos/config"
+	"github.com/griesbacher/Iapetos/cyclic"
 	"github.com/griesbacher/Iapetos/prom"
 	"github.com/griesbacher/nagflux/helper"
 )
@@ -24,7 +25,7 @@ var prometheusListener net.Listener
 func init() {
 
 	//Start selfobserving
-	callbacks.StartSelfObserver()
+	cyclic.StartSelfObserver()
 
 	// just some information about your plugin
 	neb.Title = "Iapetos"
@@ -75,7 +76,7 @@ func init() {
 		neb.CoreFLog("Deinit flags: %d\n", neb.Title, flags)
 		neb.CoreFLog("Deinit reason: %d\n", neb.Title, reason)
 
-		callbacks.StopSelfObserver()
+		cyclic.StopSelfObserver()
 		prometheusListener.Close()
 
 		return neb.Ok
