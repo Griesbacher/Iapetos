@@ -29,8 +29,9 @@ func init() {
 	//Start selfobserving
 	stoppables = append(stoppables, cyclic.StartSelfObserver())
 
-	//Start Host stats
+	//Start Host and Service stats
 	stoppables = append(stoppables, cyclic.StartHostStatistics())
+	stoppables = append(stoppables, cyclic.StartServiceStatistics())
 
 	// just some information about your plugin
 	neb.Title = "Iapetos"

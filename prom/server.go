@@ -46,5 +46,6 @@ func InitPrometheus(address string) (net.Listener, error) {
 	initNotificationCheckData()
 	initContactNotificationCheckData()
 	initStatisticsHost()
+	initStatisticsService()
 	return prometheusListener, nil
 }
