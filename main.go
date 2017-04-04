@@ -6,7 +6,6 @@ import (
 	"net"
 
 	"github.com/ConSol/go-neb-wrapper/neb"
-	"github.com/ConSol/go-neb-wrapper/neb/nlog"
 	"github.com/griesbacher/Iapetos/callbacks"
 	"github.com/griesbacher/Iapetos/config"
 	"github.com/griesbacher/Iapetos/prom"
@@ -43,37 +42,38 @@ func init() {
 
 	//Init Hook
 	neb.NebModuleInitHook = func(flags int, args string) int {
-		nlog.CoreLog(fmt.Sprintf("[%s] Init\n", neb.Title))
-		nlog.CoreLog(fmt.Sprintf("[%s] Init flags: %d\n", neb.Title, flags))
-		nlog.CoreLog(fmt.Sprintf("[%s] Init args: %s\n", neb.Title, args))
+		neb.CoreFLog("Init\n")
+		neb.CoreFLog("Init flags: %d\n", flags)
+		neb.CoreFLog("Init args: %s\n", args)
+		neb.CoreFLog("CoreType %s\n", neb.CoreToString())
 		argsMap := helper.StringToMap(args, ",", "=")
 		if configFile, ok := argsMap[configFileKey]; ok {
 			err := config.InitConfig(configFile)
 			if err == nil {
-				nlog.CoreLog(fmt.Sprintf("[%s] Loading Configfile: %s\n", neb.Title, args))
+				neb.CoreFLog("Loading Configfile: %s\n", args)
 			} else {
-				nlog.CoreLog(fmt.Sprintf("[%s] Could not loaded Configfile: %s, Error: %s\n", neb.Title, args, err.Error()))
+				neb.CoreFLog("Could not loaded Configfile: %s, Error: %s\n", args, err.Error())
 				return neb.Error
 			}
 		} else {
-			nlog.CoreLog(fmt.Sprintf("[%s] Could not file Configfile entry(%s) in the given config: %s\n", neb.Title, configFileKey, args))
+			neb.CoreFLog("Could not file Configfile entry(%s) in the given config: %s\n", configFileKey, args)
 			return neb.Error
 		}
 		var err error
 		prometheusListener, err = prom.InitPrometheus(config.GetConfig().Prometheus.Address)
 		if err == nil {
-			nlog.CoreLog(fmt.Sprintf("[%s] Starting Prometheus at %s", neb.Title, config.GetConfig().Prometheus.Address))
+			neb.CoreFLog("Starting Prometheus at %s", config.GetConfig().Prometheus.Address)
 			return neb.Ok
 		}
-		nlog.CoreLog(fmt.Sprintf("[%s] Could not starting Prometheus at %s. Error: %s", neb.Title, config.GetConfig().Prometheus.Address, err))
+		neb.CoreFLog("Could not starting Prometheus at %s. Error: %s", config.GetConfig().Prometheus.Address, err)
 		return neb.Error
 	}
 
 	//Deinit Hook
 	neb.NebModuleDeinitHook = func(flags, reason int) int {
-		nlog.CoreLog(fmt.Sprintf("[%s] Deinit\n", neb.Title))
-		nlog.CoreLog(fmt.Sprintf("[%s] Deinit flags: %d\n", neb.Title, flags))
-		nlog.CoreLog(fmt.Sprintf("[%s] Deinit reason: %d\n", neb.Title, reason))
+		neb.CoreFLog("Deinit\n", neb.Title)
+		neb.CoreFLog("Deinit flags: %d\n", neb.Title, flags)
+		neb.CoreFLog("Deinit reason: %d\n", neb.Title, reason)
 
 		callbacks.StopSelfObserver()
 		prometheusListener.Close()
