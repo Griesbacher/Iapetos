@@ -20,11 +20,11 @@ func (s SelfObserver) run() {
 		OverallCallbackDuration:   make(chan map[int]time.Duration, 1000),
 	}
 	neb.Stats = stats
-Loop:
 	for {
 		select {
 		case <-s.stop:
-			break Loop
+			logging.GetLogger().Info("Stopping SelfObserver")
+			s.stop <- true
 		case registeredCallbacks := <-stats.RegisteredCallbacksByType:
 			for callbackType, amount := range registeredCallbacks {
 				prom.ModuleCallbacks.
@@ -40,8 +40,6 @@ Loop:
 			}
 		}
 	}
-	logging.GetLogger().Info("Stopping SelfObserver")
-	s.stop <- true
 }
 
 //StartSelfObserver creates an new SelfObserver and starts it

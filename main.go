@@ -21,11 +21,16 @@ var Build string
 
 var prometheusListener net.Listener
 
+var stoppables = []cyclic.Stoppable{}
+
 //This is an example main file, which should demonstrate how to use the library.
 func init() {
 
 	//Start selfobserving
-	cyclic.StartSelfObserver()
+	stoppables = append(stoppables, cyclic.StartSelfObserver())
+
+	//Start Host stats
+	stoppables = append(stoppables, cyclic.StartHostStatistics())
 
 	// just some information about your plugin
 	neb.Title = "Iapetos"
@@ -43,7 +48,7 @@ func init() {
 
 	//Init Hook
 	neb.NebModuleInitHook = func(flags int, args string) int {
-		neb.CoreFLog("Init\n")
+		neb.CoreFLog("Init - %s - by %s\n", neb.Version, neb.Author)
 		neb.CoreFLog("Init flags: %d\n", flags)
 		neb.CoreFLog("Init args: %s\n", args)
 		neb.CoreFLog("CoreType %s\n", neb.CoreToString())
@@ -76,7 +81,10 @@ func init() {
 		neb.CoreFLog("Deinit flags: %d\n", neb.Title, flags)
 		neb.CoreFLog("Deinit reason: %d\n", neb.Title, reason)
 
-		cyclic.StopSelfObserver()
+		for _, s := range stoppables {
+			s.Stop()
+		}
+
 		prometheusListener.Close()
 
 		return neb.Ok
