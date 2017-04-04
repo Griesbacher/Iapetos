@@ -3,55 +3,55 @@ package prom
 import "github.com/prometheus/client_golang/prometheus"
 
 const (
-	subsystemStatistics = "statistics"
+	subsystemStatisticsHosts = "statistics_hosts"
 )
 
 var statsTypeLabelNames = []string{Type}
 
 //StatsHostsOverall is a Prometheus gauge
-var HostsStatsAmount = prometheus.NewGauge(
+var StatsHostsAmount = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
-		Subsystem: subsystemStatistics,
-		Name:      "hosts_total",
+		Subsystem: subsystemStatisticsHosts,
+		Name:      "total",
 		Help:      "Amount of Hosts total",
 	},
 )
 
 //StatsHostsCheckType is a Prometheus gauge
-var HostsStatsCheckType = prometheus.NewGaugeVec(
+var StatsHostsCheckType = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
-		Subsystem: subsystemStatistics,
-		Name:      "hosts_check_type_total",
+		Subsystem: subsystemStatisticsHosts,
+		Name:      "check_type_total",
 		Help:      "Amount of Hosts with certain checkresults",
 	},
 	statsTypeLabelNames,
 )
 
 //StatsHostsFlapping is a Prometheus gauge
-var HostsStatsFlapping = prometheus.NewGauge(
+var StatsHostsFlapping = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
-		Subsystem: subsystemStatistics,
-		Name:      "hosts_flapping_total",
+		Subsystem: subsystemStatisticsHosts,
+		Name:      "flapping_total",
 		Help:      "Amount of Hosts currently flapping",
 	},
 )
 
-//HostsStatsChecksEnabled is a Prometheus gauge
-var HostsStatsChecksEnabled = prometheus.NewGauge(
+//StatsHostsChecksEnabled is a Prometheus gauge
+var StatsHostsChecksEnabled = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
-		Subsystem: subsystemStatistics,
-		Name:      "hosts_checks_enabled_total",
+		Subsystem: subsystemStatisticsHosts,
+		Name:      "checks_enabled_total",
 		Help:      "Amount of Hosts with enabled hockschecks",
 	},
 )
 
-func initHostStatistics() {
-	prometheus.MustRegister(HostsStatsAmount)
-	prometheus.MustRegister(HostsStatsCheckType)
-	prometheus.MustRegister(HostsStatsFlapping)
-	prometheus.MustRegister(HostsStatsChecksEnabled)
+func initStatisticsHost() {
+	prometheus.MustRegister(StatsHostsAmount)
+	prometheus.MustRegister(StatsHostsCheckType)
+	prometheus.MustRegister(StatsHostsFlapping)
+	prometheus.MustRegister(StatsHostsChecksEnabled)
 }
