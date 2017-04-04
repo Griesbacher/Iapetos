@@ -40,9 +40,9 @@ func (s HostStatistics) run() {
 			if len(hosts) == 0 {
 				continue
 			}
-			prom.HostsStatsOverall.Set(float64(len(hosts)))
+			prom.HostsStatsAmount.Set(float64(len(hosts)))
 			countHostTypes(hosts)
-			countFlappingHosts(hosts)
+			countMinorHostStats(hosts)
 		}
 	}
 }
@@ -63,12 +63,19 @@ func countHostTypes(hosts structs.Hostlist) {
 	}
 }
 
-func countFlappingHosts(hosts structs.Hostlist) {
+func countMinorHostStats(hosts structs.Hostlist) {
 	flapping := 0.0
+	enabled := 0.0
+
 	for _, h := range hosts {
 		if h.IsFlapping > 0 {
 			flapping++
 		}
+		if h.ChecksEnabled > 0 {
+			enabled++
+		}
 	}
+
 	prom.HostsStatsFlapping.Set(flapping)
+	prom.HostsStatsChecksEnabled.Set(enabled)
 }

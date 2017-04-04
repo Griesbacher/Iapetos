@@ -9,7 +9,7 @@ const (
 var statsTypeLabelNames = []string{Type}
 
 //StatsHostsOverall is a Prometheus gauge
-var HostsStatsOverall = prometheus.NewGauge(
+var HostsStatsAmount = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatistics,
@@ -39,8 +39,29 @@ var HostsStatsFlapping = prometheus.NewGauge(
 	},
 )
 
+//HostsStatsChecksEnabled is a Prometheus gauge
+var HostsStatsChecksEnabled = prometheus.NewGauge(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemStatistics,
+		Name:      "hosts_checks_enabled_total",
+		Help:      "Amount of Hosts with enabled hockschecks",
+	},
+)
+
+//HostsStatsChecksDisabled is a Prometheus gauge
+var HostsStatsChecksDisabled = prometheus.NewGauge(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemStatistics,
+		Name:      "hosts_checks_disabled_total",
+		Help:      "Amount of Hosts with disabled hostchecks",
+	},
+)
+
 func initHostStatistics() {
-	prometheus.MustRegister(HostsStatsOverall)
+	prometheus.MustRegister(HostsStatsAmount)
 	prometheus.MustRegister(HostsStatsCheckType)
 	prometheus.MustRegister(HostsStatsFlapping)
+	prometheus.MustRegister(HostsStatsChecksEnabled)
 }
