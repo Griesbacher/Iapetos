@@ -49,16 +49,6 @@ var HostsStatsChecksEnabled = prometheus.NewGauge(
 	},
 )
 
-//HostsStatsChecksDisabled is a Prometheus gauge
-var HostsStatsChecksDisabled = prometheus.NewGauge(
-	prometheus.GaugeOpts{
-		Namespace: namespaceCore,
-		Subsystem: subsystemStatistics,
-		Name:      "hosts_checks_disabled_total",
-		Help:      "Amount of Hosts with disabled hostchecks",
-	},
-)
-
 func initHostStatistics() {
 	prometheus.MustRegister(HostsStatsAmount)
 	prometheus.MustRegister(HostsStatsCheckType)

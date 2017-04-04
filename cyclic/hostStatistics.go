@@ -40,7 +40,7 @@ func (s HostStatistics) run() {
 			if len(hosts) == 0 {
 				continue
 			}
-			prom.HostsStatsAmount.Set(float64(len(hosts)))
+			prom.StatsHostsAmount.Set(float64(len(hosts)))
 			countHostTypes(hosts)
 			countMinorHostStats(hosts)
 		}
@@ -57,7 +57,7 @@ func countHostTypes(hosts structs.Hostlist) {
 		counterMap[t]++
 	}
 	for k, v := range counterMap {
-		prom.HostsStatsCheckType.With(prometheus.Labels{
+		prom.StatsHostsCheckType.With(prometheus.Labels{
 			prom.Type: k,
 		}).Set(v)
 	}
@@ -76,6 +76,6 @@ func countMinorHostStats(hosts structs.Hostlist) {
 		}
 	}
 
-	prom.HostsStatsFlapping.Set(flapping)
-	prom.HostsStatsChecksEnabled.Set(enabled)
+	prom.StatsHostsFlapping.Set(flapping)
+	prom.StatsHostsChecksEnabled.Set(enabled)
 }
