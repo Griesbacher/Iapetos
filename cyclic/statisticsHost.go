@@ -36,15 +36,18 @@ func (s HostStatistics) run() {
 				continue
 			}
 			prom.StatsHostsAmount.Set(float64(len(hosts)))
-			countHostTypes(hosts)
-			countMinorHostStats(hosts)
+			meta := hosts.GenMetaHostAndServiceList()
+			countTypes(meta, prom.StatsHostsCheckType)
+			flapping, enabled := countMinorStats(meta)
+			prom.StatsHostsFlapping.Set(flapping)
+			prom.StatsHostsChecksEnabled.Set(enabled)
 		}
 	}
 }
 
-func countHostTypes(hosts structs.Hostlist) {
+func countTypes(meta structs.MetaHostAndServiceList, target *prometheus.GaugeVec) {
 	counterMap := map[string]float64{}
-	for _, h := range hosts {
+	for _, h := range meta {
 		t := checkTypes.CheckTypeToString(h.CheckType)
 		if _, contained := counterMap[t]; !contained {
 			counterMap[t] = 0
@@ -52,16 +55,13 @@ func countHostTypes(hosts structs.Hostlist) {
 		counterMap[t]++
 	}
 	for k, v := range counterMap {
-		prom.StatsHostsCheckType.With(prometheus.Labels{
+		target.With(prometheus.Labels{
 			prom.Type: k,
 		}).Set(v)
 	}
 }
 
-func countMinorHostStats(hosts structs.Hostlist) {
-	flapping := 0.0
-	enabled := 0.0
-
+func countMinorStats(hosts structs.MetaHostAndServiceList) (flapping float64, enabled float64) {
 	for _, h := range hosts {
 		if h.IsFlapping > 0 {
 			flapping++
@@ -70,7 +70,5 @@ func countMinorHostStats(hosts structs.Hostlist) {
 			enabled++
 		}
 	}
-
-	prom.StatsHostsFlapping.Set(flapping)
-	prom.StatsHostsChecksEnabled.Set(enabled)
+	return
 }
