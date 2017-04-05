@@ -42,9 +42,13 @@ func (s ServiceStatistics) run() {
 				serviceStates.ServiceStatesToString(serviceStates.Critical): 0,
 				serviceStates.ServiceStatesToString(serviceStates.Unknown):  0,
 			}, serviceStates.ServiceStatesToString)
-			flapping, enabled := countMinorStats(meta)
-			prom.StatsServicesFlapping.Set(flapping)
-			prom.StatsServicesChecksEnabled.Set(enabled)
+			countMinorStats(meta,
+				prom.StatsServicesFlapping,
+				prom.StatsServicesChecksEnabled,
+				prom.StatsServicesFlexDowntime,
+				prom.StatsServicesDowntime,
+			)
+
 		}
 	}
 }

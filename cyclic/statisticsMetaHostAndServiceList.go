@@ -44,14 +44,24 @@ func countTypes(meta structs.MetaHostAndServiceList, target *prometheus.GaugeVec
 	}
 }
 
-func countMinorStats(meta structs.MetaHostAndServiceList) (flapping, enabled float64) {
-	for _, h := range meta {
-		if h.IsFlapping > 0 {
+func countMinorStats(meta structs.MetaHostAndServiceList, gFlapping, gEnabled, gFlexDowntime, gDowntime prometheus.Gauge) {
+	flapping, enabled, flexDowntime, downtime := 0.0, 0.0, 0.0, 0.0
+	for _, m := range meta {
+		if m.IsFlapping > 0 {
 			flapping++
 		}
-		if h.ChecksEnabled > 0 {
+		if m.ChecksEnabled > 0 {
 			enabled++
 		}
+		if m.PendingFlexDowntimeDepth > 0 {
+			flexDowntime++
+		}
+		if m.ScheduledDowntimeDepth > 0 {
+			downtime++
+		}
 	}
-	return
+	gFlapping.Set(flapping)
+	gEnabled.Set(enabled)
+	gFlexDowntime.Set(flexDowntime)
+	gDowntime.Set(downtime)
 }

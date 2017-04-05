@@ -50,6 +50,26 @@ var StatsHostsFlapping = prometheus.NewGauge(
 	},
 )
 
+//StatsHostsFlexDowntime is a Prometheus gauge
+var StatsHostsFlexDowntime = prometheus.NewGauge(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemStatisticsHosts,
+		Name:      "downtime_flex_total",
+		Help:      "Amount of Hosts currently with a flex downtime",
+	},
+)
+
+//StatsHostsDowntime is a Prometheus gauge
+var StatsHostsDowntime = prometheus.NewGauge(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemStatisticsHosts,
+		Name:      "downtime_total",
+		Help:      "Amount of Hosts currently with a downtime",
+	},
+)
+
 //StatsHostsChecksEnabled is a Prometheus gauge
 var StatsHostsChecksEnabled = prometheus.NewGauge(
 	prometheus.GaugeOpts{
@@ -65,5 +85,7 @@ func initStatisticsHost() {
 	prometheus.MustRegister(StatsHostsCheckType)
 	prometheus.MustRegister(StatsHostsStateType)
 	prometheus.MustRegister(StatsHostsFlapping)
+	prometheus.MustRegister(StatsHostsFlexDowntime)
+	prometheus.MustRegister(StatsHostsDowntime)
 	prometheus.MustRegister(StatsHostsChecksEnabled)
 }

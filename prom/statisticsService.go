@@ -48,6 +48,26 @@ var StatsServicesFlapping = prometheus.NewGauge(
 	},
 )
 
+//StatsServicesFlexDowntime is a Prometheus gauge
+var StatsServicesFlexDowntime = prometheus.NewGauge(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemStatisticsServices,
+		Name:      "downtime_flex_total",
+		Help:      "Amount of Services currently with a flex downtime",
+	},
+)
+
+//StatsServicesDowntime is a Prometheus gauge
+var StatsServicesDowntime = prometheus.NewGauge(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemStatisticsServices,
+		Name:      "downtime_total",
+		Help:      "Amount of Services currently with a downtime",
+	},
+)
+
 //StatsServicesChecksEnabled is a Prometheus gauge
 var StatsServicesChecksEnabled = prometheus.NewGauge(
 	prometheus.GaugeOpts{
@@ -63,5 +83,7 @@ func initStatisticsService() {
 	prometheus.MustRegister(StatsServicesCheckType)
 	prometheus.MustRegister(StatsServicesStateType)
 	prometheus.MustRegister(StatsServicesFlapping)
+	prometheus.MustRegister(StatsServicesFlexDowntime)
+	prometheus.MustRegister(StatsServicesDowntime)
 	prometheus.MustRegister(StatsServicesChecksEnabled)
 }

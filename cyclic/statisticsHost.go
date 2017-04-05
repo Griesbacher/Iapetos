@@ -41,9 +41,12 @@ func (s HostStatistics) run() {
 				hostStates.StateTypeToString(hostStates.Down):        0,
 				hostStates.StateTypeToString(hostStates.Unreachable): 0,
 			}, hostStates.StateTypeToString)
-			flapping, enabled := countMinorStats(meta)
-			prom.StatsHostsFlapping.Set(flapping)
-			prom.StatsHostsChecksEnabled.Set(enabled)
+			countMinorStats(meta,
+				prom.StatsHostsFlapping,
+				prom.StatsHostsChecksEnabled,
+				prom.StatsHostsFlexDowntime,
+				prom.StatsHostsDowntime,
+			)
 		}
 	}
 }
