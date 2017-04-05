@@ -24,7 +24,18 @@ var StatsHostsCheckType = prometheus.NewGaugeVec(
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsHosts,
 		Name:      "check_type_total",
-		Help:      "Amount of Hosts with certain checkresults",
+		Help:      "Amount of Hosts with certain checktypes",
+	},
+	statsTypeLabelNames,
+)
+
+//StatsHostsStateType is a Prometheus gauge
+var StatsHostsStateType = prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemStatisticsHosts,
+		Name:      "state_type_total",
+		Help:      "Amount of Hosts with certain state",
 	},
 	statsTypeLabelNames,
 )
@@ -52,6 +63,7 @@ var StatsHostsChecksEnabled = prometheus.NewGauge(
 func initStatisticsHost() {
 	prometheus.MustRegister(StatsHostsAmount)
 	prometheus.MustRegister(StatsHostsCheckType)
+	prometheus.MustRegister(StatsHostsStateType)
 	prometheus.MustRegister(StatsHostsFlapping)
 	prometheus.MustRegister(StatsHostsChecksEnabled)
 }
