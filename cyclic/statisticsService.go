@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/ConSol/go-neb-wrapper/neb"
+	"github.com/ConSol/go-neb-wrapper/neb/serviceStates"
 	"github.com/griesbacher/Iapetos/logging"
 	"github.com/griesbacher/Iapetos/prom"
 )
@@ -35,6 +36,12 @@ func (s ServiceStatistics) run() {
 			prom.StatsServicesAmount.Set(float64(len(hosts)))
 			meta := hosts.GenMetaHostAndServiceList()
 			countTypes(meta, prom.StatsServicesCheckType)
+			countStates(meta, prom.StatsServicesStateType, map[string]float64{
+				serviceStates.ServiceStatesToString(serviceStates.Ok):       0,
+				serviceStates.ServiceStatesToString(serviceStates.Warning):  0,
+				serviceStates.ServiceStatesToString(serviceStates.Critical): 0,
+				serviceStates.ServiceStatesToString(serviceStates.Unknown):  0,
+			}, serviceStates.ServiceStatesToString)
 			flapping, enabled := countMinorStats(meta)
 			prom.StatsServicesFlapping.Set(flapping)
 			prom.StatsServicesChecksEnabled.Set(enabled)

@@ -4,11 +4,9 @@ import (
 	"time"
 
 	"github.com/ConSol/go-neb-wrapper/neb"
-	"github.com/ConSol/go-neb-wrapper/neb/checkTypes"
-	"github.com/ConSol/go-neb-wrapper/neb/structs"
+	"github.com/ConSol/go-neb-wrapper/neb/hostStates"
 	"github.com/griesbacher/Iapetos/logging"
 	"github.com/griesbacher/Iapetos/prom"
-	"github.com/prometheus/client_golang/prometheus"
 )
 
 //HostStatistics monitors the core host stats
@@ -38,37 +36,14 @@ func (s HostStatistics) run() {
 			prom.StatsHostsAmount.Set(float64(len(hosts)))
 			meta := hosts.GenMetaHostAndServiceList()
 			countTypes(meta, prom.StatsHostsCheckType)
+			countStates(meta, prom.StatsHostsStateType, map[string]float64{
+				hostStates.StateTypeToString(hostStates.Up):          0,
+				hostStates.StateTypeToString(hostStates.Down):        0,
+				hostStates.StateTypeToString(hostStates.Unreachable): 0,
+			}, hostStates.StateTypeToString)
 			flapping, enabled := countMinorStats(meta)
 			prom.StatsHostsFlapping.Set(flapping)
 			prom.StatsHostsChecksEnabled.Set(enabled)
 		}
 	}
-}
-
-func countTypes(meta structs.MetaHostAndServiceList, target *prometheus.GaugeVec) {
-	counterMap := map[string]float64{}
-	for _, h := range meta {
-		t := checkTypes.CheckTypeToString(h.CheckType)
-		if _, contained := counterMap[t]; !contained {
-			counterMap[t] = 0
-		}
-		counterMap[t]++
-	}
-	for k, v := range counterMap {
-		target.With(prometheus.Labels{
-			prom.Type: k,
-		}).Set(v)
-	}
-}
-
-func countMinorStats(hosts structs.MetaHostAndServiceList) (flapping float64, enabled float64) {
-	for _, h := range hosts {
-		if h.IsFlapping > 0 {
-			flapping++
-		}
-		if h.ChecksEnabled > 0 {
-			enabled++
-		}
-	}
-	return
 }
