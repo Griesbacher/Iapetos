@@ -1,45 +1,41 @@
 package logging
 
 import (
-	"io"
-	"os"
+	"fmt"
+	"strings"
 
-	"github.com/kdar/factorlog"
+	"github.com/ConSol/go-neb-wrapper/neb"
+	"github.com/griesbacher/Iapetos/config"
 )
 
-const logFormat = "%{Date} %{Time} %{Severity}: %{Message}"
-const logColors = "%{Color \"white\" \"DEBUG\"}%{Color \"magenta\" \"WARN\"}%{Color \"red\" \"CRITICAL\"}"
+const (
+	core   = "core"
+	stdout = "stdout"
+)
 
-var singleLogger *factorlog.FactorLog
+var destination string
 
-//InitLogger Constructor.
-func InitLogger(logFile, minSeverity string) {
-	var logFormatter factorlog.Formatter
-	var targetWriter io.Writer
-	var err error
-	if logFile == "" {
-		logFormatter = factorlog.NewStdFormatter(logColors + logFormat)
-		targetWriter = os.Stdout
-	} else {
-		logFormatter = factorlog.NewStdFormatter(logFormat)
-		targetWriter, err = os.OpenFile(logFile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+//InitLogDestination checks the config values and inits the logging
+func InitLogDestination() error {
+	dest := strings.ToLower(config.GetConfig().Logging.Destination)
+	if dest != core && dest != stdout {
+		return fmt.Errorf("This log destination is not supported. Supported are: %s %s", core, stdout)
 	}
-	if err != nil {
-		panic(err)
-	}
-	singleLogger = factorlog.New(targetWriter, logFormatter)
-	singleLogger.SetMinMaxSeverity(factorlog.StringToSeverity(minSeverity), factorlog.StringToSeverity("PANIC"))
+
+	neb.CoreFLog("Logging from now on to: %s", dest)
+	destination = dest
+	return nil
 }
 
-//GetLogger getsingelton logger
-func GetLogger() *factorlog.FactorLog {
-	if singleLogger == nil {
-		InitLogger("", "WARN")
+//Flog can be used to log ether to the core or stdout
+func Flog(format string, a ...interface{}) {
+	if destination == core {
+		neb.CoreFLog(format, a)
+	} else if destination == stdout {
+		if a == nil {
+			fmt.Print(format)
+		} else {
+			fmt.Printf(format, a)
+		}
 	}
-	return singleLogger
-}
-
-//InitTestLogger creates logger for testing
-func InitTestLogger() {
-	singleLogger = factorlog.New(os.Stderr, factorlog.NewStdFormatter(""))
 }

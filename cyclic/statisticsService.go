@@ -25,7 +25,7 @@ func (s ServiceStatistics) run() {
 	for {
 		select {
 		case <-s.stop:
-			logging.GetLogger().Info("Stopping ServiceStatistics")
+			logging.Flog("Stopping ServiceStatistics\n")
 			s.stop <- true
 			return
 		case <-time.After(time.Duration(10) * time.Second):

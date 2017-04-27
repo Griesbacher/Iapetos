@@ -23,7 +23,7 @@ func (s SelfObserver) run() {
 	for {
 		select {
 		case <-s.stop:
-			logging.GetLogger().Info("Stopping SelfObserver")
+			logging.Flog("Stopping SelfObserver\n")
 			s.stop <- true
 		case registeredCallbacks := <-stats.RegisteredCallbacksByType:
 			for callbackType, amount := range registeredCallbacks {

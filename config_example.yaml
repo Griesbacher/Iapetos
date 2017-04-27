@@ -1,6 +1,6 @@
 logging:
-  file: ""
-  level: "Debug"
+# supported targets: core (core log), stdout
+  destination : "core"
 
 prometheus:
   address: ":9988"

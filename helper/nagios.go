@@ -67,7 +67,7 @@ func IteratePerformanceData(input string) <-chan PerformanceData {
 					perf.Data["Maximum"], err = strconv.ParseFloat(data, 64)
 				}
 				if err != nil {
-					logging.GetLogger().Debugf("Skipping perfdata due to parse erros. Index: %d Data: %s", i, fmt.Sprint(value))
+					logging.Flog("Skipping perfdata due to parse erros. Index: %d Data: %s\n", i, fmt.Sprint(value))
 					continue OuterLoop
 				}
 			}

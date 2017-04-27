@@ -9,8 +9,10 @@ import (
 	"github.com/griesbacher/Iapetos/callbacks"
 	"github.com/griesbacher/Iapetos/config"
 	"github.com/griesbacher/Iapetos/cyclic"
+	"github.com/griesbacher/Iapetos/logging"
 	"github.com/griesbacher/Iapetos/prom"
 	"github.com/griesbacher/nagflux/helper"
+	"github.com/prometheus/common/version"
 )
 
 const configFileKey = "config_file"
@@ -49,15 +51,21 @@ func init() {
 
 	//Init Hook
 	neb.NebModuleInitHook = func(flags int, args string) int {
+
 		neb.CoreFLog("Init - %s - by %s\n", neb.Version, neb.Author)
 		neb.CoreFLog("Init flags: %d\n", flags)
 		neb.CoreFLog("Init args: %s\n", args)
-		neb.CoreFLog("CoreType %s\n", neb.CoreToString())
 		argsMap := helper.StringToMap(args, ",", "=")
 		if configFile, ok := argsMap[configFileKey]; ok {
 			err := config.InitConfig(configFile)
 			if err == nil {
 				neb.CoreFLog("Loading Configfile: %s\n", args)
+				if logging.InitLogDestination() != nil {
+					neb.CoreFLog(err.Error())
+					return neb.Error
+				}
+				logging.Flog("Build Info %s\n", version.Info())
+				logging.Flog("Build context %s\n", version.BuildContext())
 			} else {
 				neb.CoreFLog("Could not loaded Configfile: %s, Error: %s\n", args, err.Error())
 				return neb.Error
@@ -69,18 +77,18 @@ func init() {
 		var err error
 		prometheusListener, err = prom.InitPrometheus(config.GetConfig().Prometheus.Address)
 		if err == nil {
-			neb.CoreFLog("Starting Prometheus at %s", config.GetConfig().Prometheus.Address)
+			logging.Flog("Starting Prometheus at %s\n", config.GetConfig().Prometheus.Address)
 			return neb.Ok
 		}
-		neb.CoreFLog("Could not starting Prometheus at %s. Error: %s", config.GetConfig().Prometheus.Address, err)
+		logging.Flog("Could not starting Prometheus at %s. Error: %s\n", config.GetConfig().Prometheus.Address, err)
 		return neb.Error
 	}
 
 	//Deinit Hook
 	neb.NebModuleDeinitHook = func(flags, reason int) int {
-		neb.CoreFLog("Deinit\n", neb.Title)
-		neb.CoreFLog("Deinit flags: %d\n", neb.Title, flags)
-		neb.CoreFLog("Deinit reason: %d\n", neb.Title, reason)
+		logging.Flog("Deinit\n")
+		logging.Flog("Deinit flags: %d\n", flags)
+		logging.Flog("Deinit reason: %d\n", reason)
 
 		for _, s := range stoppables {
 			s.Stop()
