@@ -15,12 +15,14 @@ var (
 	regexPerformancelable = regexp.MustCompile(`([^=]+)=(U|[\d\.,\-]+)([\w\/%]*);?([\d\.,\-:~@]+)?;?([\d\.,\-:~@]+)?;?([\d\.,\-]+)?;?([\d\.,\-]+)?;?\s*`)
 )
 
+//PerformanceData is struct to represent nagioslike performancedata
 type PerformanceData struct {
 	Label string
 	Unit  string
 	Data  map[string]float64
 }
 
+//IteratePerformanceData returns an iterator for an given performancedata string
 func IteratePerformanceData(input string) <-chan PerformanceData {
 	ch := make(chan PerformanceData)
 	go func() {

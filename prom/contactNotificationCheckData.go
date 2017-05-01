@@ -4,7 +4,8 @@ import "github.com/prometheus/client_golang/prometheus"
 
 const (
 	subsystemContactNotification = "contact_notification"
-	ContactName                  = "contact_name"
+	//ContactName is the string "contact_name"
+	ContactName = "contact_name"
 )
 
 var contactNotificationLabelNames = []string{HostName, ServiceDescription, AckAuthor, ContactName, Type, Reason}

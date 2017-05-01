@@ -12,6 +12,7 @@ import (
 
 const serviceDescription = "host_check"
 
+//HostCheckData is a callback for neb.HostCheckData
 func HostCheckData(callbackType int, data unsafe.Pointer) int {
 	if callbackType != neb.HostCheckData {
 		return neb.Error

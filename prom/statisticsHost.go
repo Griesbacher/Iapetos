@@ -8,7 +8,7 @@ const (
 
 var statsTypeLabelNames = []string{Type}
 
-//StatsHostsOverall is a Prometheus gauge
+//StatsHostsAmount is a Prometheus gauge
 var StatsHostsAmount = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,

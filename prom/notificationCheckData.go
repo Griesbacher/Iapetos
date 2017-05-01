@@ -4,13 +4,15 @@ import "github.com/prometheus/client_golang/prometheus"
 
 const (
 	subsystemNotification = "notification"
-	AckAuthor             = "ack_author"
-	Reason                = "reason"
+	//AckAuthor is the string "ack_author"
+	AckAuthor = "ack_author"
+	//Reason is the string "reason"
+	Reason = "reason"
 )
 
 var notificationLabelNames = []string{HostName, ServiceDescription, AckAuthor, Type, Reason}
 
-//NotificationStarted is a Prometheus counter vector
+//NotificationStart is a Prometheus counter vector
 var NotificationStart = prometheus.NewCounterVec(
 	prometheus.CounterOpts{
 		Namespace: namespaceCore,
@@ -21,7 +23,7 @@ var NotificationStart = prometheus.NewCounterVec(
 	notificationLabelNames,
 )
 
-//NotificationEnded is a Prometheus counter vector
+//NotificationEnd is a Prometheus counter vector
 var NotificationEnd = prometheus.NewCounterVec(
 	prometheus.CounterOpts{
 		Namespace: namespaceCore,
@@ -32,7 +34,7 @@ var NotificationEnd = prometheus.NewCounterVec(
 	notificationLabelNames,
 )
 
-//NotificationReason is a Prometheus counter vector
+//NotificationContactsNotified is a Prometheus counter vector
 var NotificationContactsNotified = prometheus.NewCounterVec(
 	prometheus.CounterOpts{
 		Namespace: namespaceCore,

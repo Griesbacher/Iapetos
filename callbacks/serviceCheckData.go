@@ -10,6 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
+//ServiceCheckData is a callback for neb.ServiceCheckData
 func ServiceCheckData(callbackType int, data unsafe.Pointer) int {
 	if callbackType != neb.ServiceCheckData {
 		return neb.Error

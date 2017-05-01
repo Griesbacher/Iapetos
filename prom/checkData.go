@@ -4,7 +4,8 @@ import "github.com/prometheus/client_golang/prometheus"
 
 const (
 	subsystemChecks = "checks"
-	Label           = "label"
+	//Label is the string label
+	Label = "label"
 )
 
 var checkLabelNames = []string{HostName, ServiceDescription, CommandName}

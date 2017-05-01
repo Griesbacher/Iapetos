@@ -6,7 +6,7 @@ const (
 	subsystemStatisticsServices = "statistics_services"
 )
 
-//StatsServicesOverall is a Prometheus gauge
+//StatsServicesAmount is a Prometheus gauge
 var StatsServicesAmount = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,

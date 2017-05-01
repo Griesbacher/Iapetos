@@ -9,6 +9,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
+//NotificationCheckData is a callback for neb.NotificationData
 func NotificationCheckData(callbackType int, data unsafe.Pointer) int {
 	if callbackType != neb.NotificationData {
 		return neb.Error
