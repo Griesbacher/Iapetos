@@ -13,10 +13,10 @@ updatedeps: versioncheck
 build_naemon: fmt cyclo misspell
 	go build -tags naemon -buildmode=c-shared -ldflags "-s -w -X main.Build=$(shell git rev-parse --short HEAD)" -o iapetos_naemon
 
-build_nagios3:
+build_nagios3: fmt cyclo misspell
 	go build -tags nagios3 -buildmode=c-shared -ldflags "-s -w -X main.Build=$(shell git rev-parse --short HEAD)" -o iapetos_nagios3
 
-build_nagios4:
+build_nagios4: fmt cyclo misspell
 	go build -tags nagios4 -buildmode=c-shared -ldflags "-s -w -X main.Build=$(shell git rev-parse --short HEAD)" -o iapetos_nagios4
 
 build_all: build_naemon build_nagios3 build_nagios4
@@ -26,18 +26,13 @@ debugbuild: deps fmt
 	go build -buildmode=c-shared -race -ldflags "-X main.Build=$(shell git rev-parse --short HEAD)"
 
 test: fmt 
-	go test -short -v
-	if grep -r TODO: *.go; then exit 1; fi
+	go test -v -tags naemon
+	go test -v -tags nagios3
+	go test -v -tags nagios4
 
 citest: deps
-	#
-	# Normal test cases
-	#
-	go test -v
-	#
-	# Benchmark tests
-	#
-	go test -v -bench=B\* -run=^$$ . -benchmem
+	$(MAKE) build_all
+	$(MAKE) test
 	#
 	# Checking gofmt errors
 	#
@@ -56,6 +51,7 @@ citest: deps
 	#
 	# All CI tests successful
 	#
+	curl 'https://goreportcard.com/checks' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Accept-Encoding: gzip, deflate, br'  -H 'Connection: keep-alive' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' -H 'DNT: 1' -H 'Host: goreportcard.com' -H 'Referer: https://goreportcard.com/report/github.com/Griesbacher/Iapetos' --data 'repo=github.com%2FGriesbacher%2FIapetos'
 
 benchmark: fmt
 	go test -v -bench=B\* -run=^$$ . -benchmem
