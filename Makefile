@@ -74,12 +74,13 @@ clean:
 	rm -f coverage.html
 
 fmt:
-	# go get -u golang.org/x/tools/cmd/goimports
+	go get golang.org/x/tools/cmd/goimports
 	goimports -w .
 	go tool vet -all -shadow -assign -atomic -bool -composites -copylocks -nilfunc -rangeloops -unsafeptr -unreachable .
 	gofmt -w -s .
 
 versioncheck:
+	echo "**** Go Version: $$(go version)"
 	@[ "$(GOVERSION)" = "devel" ] || [ $$(echo "$(GOVERSION)" | tr -d ".") -ge 15 ] || { \
 		echo "**** ERROR:"; \
 		echo "**** Iapetos requires at least golang version 1.5 or higher"; \
