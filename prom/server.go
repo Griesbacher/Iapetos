@@ -23,6 +23,7 @@ const (
 
 func handleMainPage(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, `
+<!DOCTYPE html>
 <HTML>
 	<HEAD><TITLE>Iapetos</TITLE></HEAD>
 <BODY>
