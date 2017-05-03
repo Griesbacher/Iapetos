@@ -6,7 +6,7 @@
 This is a Nagios / Naemon Prometheus exporter, which gathers information about Nagios and the checks it executes. It's build for the NEB Interface, if the core supports that, it should work.
 
 # Issue
-Currently it only works with Naemon. Nagios3 freezes after a few seconds: ConSol/go-neb-wrapper#1
+Currently it only works with Naemon. Nagios3 freezes after a few seconds: [ConSol/go-neb-wrapper#1](https://github.com/ConSol/go-neb-wrapper/issues/1)
 
 # Installation
 ## Requirements
