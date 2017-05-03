@@ -3,4 +3,4 @@ logging:
   destination : "core"
 
 prometheus:
-  address: ":9988"
+  address: ":9245"
