@@ -41,6 +41,9 @@ Pass the config as parameter, the rest is like every other NEB Module.
 broker_module=/path/to/your/bin/iapetos_naemon config_file=/path/to/your/config/config.yaml
 ```
 
+# Overview
+![Overview](https://github.com/Griesbacher/Iapetos/blob/master/doc/Componentdiagram.bmp)
+
 # Grafana Examples
 ## Overview
 ![Overview1](https://github.com/Griesbacher/Iapetos/blob/master/doc/Grafana%20-%20Overview1.PNG)
