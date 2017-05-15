@@ -23,7 +23,7 @@ var StatsHostsCheckType = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsHosts,
-		Name:      "check_type_total",
+		Name:      "check_type",
 		Help:      "Amount of Hosts with certain checktypes",
 	},
 	statsTypeLabelNames,
@@ -34,7 +34,7 @@ var StatsHostsStateType = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsHosts,
-		Name:      "state_type_total",
+		Name:      "state_type",
 		Help:      "Amount of Hosts with certain state",
 	},
 	statsTypeLabelNames,
@@ -45,7 +45,7 @@ var StatsHostsFlapping = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsHosts,
-		Name:      "flapping_total",
+		Name:      "flapping",
 		Help:      "Amount of Hosts currently flapping",
 	},
 )
@@ -55,7 +55,7 @@ var StatsHostsFlexDowntime = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsHosts,
-		Name:      "downtime_flex_total",
+		Name:      "downtime_flex",
 		Help:      "Amount of Hosts currently with a flex downtime",
 	},
 )
@@ -65,7 +65,7 @@ var StatsHostsDowntime = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsHosts,
-		Name:      "downtime_total",
+		Name:      "downtime",
 		Help:      "Amount of Hosts currently with a downtime",
 	},
 )
@@ -75,7 +75,7 @@ var StatsHostsChecksEnabled = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsHosts,
-		Name:      "checks_enabled_total",
+		Name:      "checks_enabled",
 		Help:      "Amount of Hosts with enabled hockschecks",
 	},
 )

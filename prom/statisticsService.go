@@ -21,7 +21,7 @@ var StatsServicesCheckType = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsServices,
-		Name:      "check_type_total",
+		Name:      "check_type",
 		Help:      "Amount of Services with certain checktype",
 	},
 	statsTypeLabelNames,
@@ -32,7 +32,7 @@ var StatsServicesStateType = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsServices,
-		Name:      "state_type_total",
+		Name:      "state_type",
 		Help:      "Amount of Services with certain state",
 	},
 	statsTypeLabelNames,
@@ -43,7 +43,7 @@ var StatsServicesFlapping = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsServices,
-		Name:      "flapping_total",
+		Name:      "flapping",
 		Help:      "Amount of Services currently flapping",
 	},
 )
@@ -53,7 +53,7 @@ var StatsServicesFlexDowntime = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsServices,
-		Name:      "downtime_flex_total",
+		Name:      "downtime_flex",
 		Help:      "Amount of Services currently with a flex downtime",
 	},
 )
@@ -63,7 +63,7 @@ var StatsServicesDowntime = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsServices,
-		Name:      "downtime_total",
+		Name:      "downtime",
 		Help:      "Amount of Services currently with a downtime",
 	},
 )
@@ -73,7 +73,7 @@ var StatsServicesChecksEnabled = prometheus.NewGauge(
 	prometheus.GaugeOpts{
 		Namespace: namespaceCore,
 		Subsystem: subsystemStatisticsServices,
-		Name:      "checks_enabled_total",
+		Name:      "checks_enabled",
 		Help:      "Amount of Services with enabled hockschecks",
 	},
 )
