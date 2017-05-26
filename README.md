@@ -10,7 +10,7 @@ Currently it only works with Naemon. Nagios3 freezes after a few seconds: [ConSo
 
 # Installation
 ## Requirements
-- CGo (tested with 1.7, but could also work with older versions)
+- CGo (tested with 1.7+, but could also work with older versions)
 ### Nagios3 / Nagios4
 - Headerfiles are included
 ### Naemon
@@ -28,7 +28,7 @@ If no 'make' is available have a look at the Makefile, it's just a shortcut for 
 Nothing special here, just the log destination and the port.
 ```YAML
 logging:
-# supported targets: core (core log), stdout
+# supported targets: core (core logfile), stdout
   destination : "core"
 
 prometheus:
