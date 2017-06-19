@@ -6,7 +6,7 @@
 This is a Nagios / Naemon Prometheus exporter, which gathers information about Nagios and the checks it executes. It's build for the NEB Interface, if the core supports that, it should work.
 
 # Issue
-Currently it only works with Naemon. Nagios3 freezes after a few seconds: [ConSol/go-neb-wrapper#1](https://github.com/ConSol/go-neb-wrapper/issues/1)
+Currently it only works with Naemon. Nagios3 freezes after a few seconds if run in daemon mode: [ConSol/go-neb-wrapper#1](https://github.com/ConSol/go-neb-wrapper/issues/1)
 
 # Installation
 ## Requirements
@@ -22,6 +22,9 @@ Currently it only works with Naemon. Nagios3 freezes after a few seconds: [ConSo
 - make build_nagios4
 
 If no 'make' is available have a look at the Makefile, it's just a shortcut for some go commands
+
+## Pre-Builded Binaries
+If a CI test went well, there is also a binary on circleci, like this [one](https://circleci.com/gh/Griesbacher/Iapetos/18#artifacts/containers/0) but you have to change to the current build, which I can't link. 
 
 # Configuration
 ## Iapetos
