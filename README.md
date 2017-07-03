@@ -49,9 +49,13 @@ broker_module=/path/to/your/bin/iapetos_naemon config_file=/path/to/your/config/
 
 # Grafana Examples
 ## Overview
+[JSON Dashboard](https://github.com/Griesbacher/Iapetos/blob/master/grafana_dashboards/Iapetos%20Stats.json)
+
 ![Overview1](https://github.com/Griesbacher/Iapetos/blob/master/doc/Grafana%20-%20Overview1.PNG)
 ![Overview2](https://github.com/Griesbacher/Iapetos/blob/master/doc/Grafana%20-%20Overview2.PNG)
 ![Overview3](https://github.com/Griesbacher/Iapetos/blob/master/doc/Grafana%20-%20Overview3.PNG)
 
 ## Check
+[JSON Dashboard](https://github.com/Griesbacher/Iapetos/blob/master/grafana_dashboards/Nagios%20Check%20Data.json)
+
 ![Check](https://github.com/Griesbacher/Iapetos/blob/master/doc/Grafana%20-%20Check.PNG)
