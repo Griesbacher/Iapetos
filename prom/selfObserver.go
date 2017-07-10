@@ -1,6 +1,11 @@
 package prom
 
-import "github.com/prometheus/client_golang/prometheus"
+import (
+	"fmt"
+
+	"github.com/ConSol/go-neb-wrapper/neb"
+	"github.com/prometheus/client_golang/prometheus"
+)
 
 const subsystemNebModule = "neb_module"
 
@@ -34,7 +39,19 @@ var ModuleCallbacks = prometheus.NewGaugeVec(
 	[]string{"type"},
 )
 
+//CoreType is a Prometheus Gauge
+var CoreType = prometheus.NewGauge(
+	prometheus.GaugeOpts{
+		Namespace: namespaceCore,
+		Subsystem: subsystemNebModule,
+		Name:      "core_type",
+		Help:      fmt.Sprintf("The core this module is compiled for. Nagios3: %d, Nagios4: %d, Naemon: %d.", neb.CoreNagios3, neb.CoreNagios4, neb.CoreNaemon),
+	},
+)
+
 func initIapetos() {
 	prometheus.MustRegister(ModuleDuration)
 	prometheus.MustRegister(ModuleCallbacks)
+	prometheus.MustRegister(CoreType)
+	CoreType.Set(float64(neb.GetCoreType()))
 }
