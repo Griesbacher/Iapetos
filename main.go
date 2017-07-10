@@ -25,6 +25,8 @@ var prometheusListener net.Listener
 
 var stoppables = []cyclic.Stoppable{}
 
+var iapetosVersion = "1.0"
+
 //This is an example main file, which should demonstrate how to use the library.
 func init() {
 
@@ -40,7 +42,7 @@ func init() {
 	neb.Name = neb.Title
 	neb.Desc = "Offers a Prometheus interface for Nagios"
 	neb.License = "GPL v3"
-	neb.Version = fmt.Sprintf("0.1 - %s", Build)
+	neb.Version = fmt.Sprintf("%s - Build(%s)", iapetosVersion, Build)
 	neb.Author = "Philip Griesbacher"
 
 	//Set callbacks
