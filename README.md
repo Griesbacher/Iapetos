@@ -3,18 +3,25 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 # Iapetos
-This is a Nagios / Naemon Prometheus exporter, which gathers information about Nagios and the checks it executes. It's build for the NEB Interface, if the core supports that, it should work.
+This is a Naemon / Nagios(3/4) / Icinga Prometheus exporter, which gathers information about Nagios and the checks it executes. It's build for the NEB Interface, if the core supports that, it should work.
+
+## Supported Cores
+- Naemon
+- Nagios3 without daemon mode!
+- Nagios4
+- Icinga without daemon mode! (Uses the Nagios3 files)
 
 # Issue
-Currently it only works with Naemon. Nagios3 freezes after a few seconds if run in daemon mode: [ConSol/go-neb-wrapper#1](https://github.com/ConSol/go-neb-wrapper/issues/1)
+Nagios3 / Icinga freezes after a few seconds if run in daemon mode: [ConSol/go-neb-wrapper#1](https://github.com/ConSol/go-neb-wrapper/issues/1)
+There is a fork happening within the core after the module has been loaded, which leads to the problem that Go will not start goroutines anymore.
 
 # Installation
-## Requirements
+## Requirements if building from source
 - CGo (tested with 1.7+, but could also work with older versions)
 ### Nagios3 / Nagios4
 - Headerfiles are included
 ### Naemon
-- Naemon dev package, for headerfiles, see http://www.naemon.org
+- Naemon dev package, for headerfiles, see www.naemon.org
 
 ## Building
 - make build_naemon
@@ -23,8 +30,10 @@ Currently it only works with Naemon. Nagios3 freezes after a few seconds if run 
 
 If no 'make' is available have a look at the Makefile, it's just a shortcut for some go commands
 
-## Pre-Builded Binaries
-If a CI test went well, there is also a binary on circleci, like this [one](https://circleci.com/gh/Griesbacher/Iapetos/18#artifacts/containers/0) but you have to change to the current build, which I can't link. 
+## Pre-Build Binaries
+If a CI test went well, there is also a binary on circleci, like this [one](https://circleci.com/gh/Griesbacher/Iapetos/18#artifacts/containers/0) but you have to change to the current build. 
+
+The further releases will also contain pre-build x64 binaries.
 
 # Configuration
 ## Iapetos
@@ -37,6 +46,7 @@ logging:
 prometheus:
   address: ":9245"
 ```
+Save this as config.yaml
 
 ## Core
 Pass the config as parameter, the rest is like every other NEB Module.
