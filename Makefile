@@ -3,6 +3,13 @@
 MAKE:=make
 SHELL:=bash
 GOVERSION:=$(shell go version | awk '{print $$3}' | sed 's/^go\([0-9]\.[0-9]\).*/\1/')
+BUILD:=$(shell git rev-parse --short HEAD)
+PROMLDFLAGS:= \
+-X github.com/prometheus/common/version.Version=$(shell grep "var iapetosVersion" main.go | cut -d \" -f2) \
+-X github.com/prometheus/common/version.Revision=$(BUILD) \
+-X github.com/prometheus/common/version.Branch=$(shell git branch | cut -c 3-) \
+-X github.com/prometheus/common/version.BuildUser=Iapetos \
+-X github.com/prometheus/common/version.BuildDate=$(shell date -u '+%Y-%m-%d_%H:%M:%S%p') \
 
 all: deps fmt cyclo misspell build_all
 
@@ -11,13 +18,13 @@ deps: versioncheck
 updatedeps: versioncheck
 
 build_naemon: fmt cyclo misspell
-	go build -tags naemon -buildmode=c-shared -ldflags "-s -w -X main.Build=$(shell git rev-parse --short HEAD)" -o iapetos_naemon
+	go build -tags naemon -buildmode=c-shared -ldflags "-s -w -X main.Build=$(BUILD) $(PROMLDFLAGS)" -o iapetos_naemon
 
 build_nagios3: fmt cyclo misspell
-	go build -tags nagios3 -buildmode=c-shared -ldflags "-s -w -X main.Build=$(shell git rev-parse --short HEAD)" -o iapetos_nagios3
+	go build -tags nagios3 -buildmode=c-shared -ldflags "-s -w -X main.Build=$(BUILD) $(PROMLDFLAGS)" -o iapetos_nagios3
 
 build_nagios4: fmt cyclo misspell
-	go build -tags nagios4 -buildmode=c-shared -ldflags "-s -w -X main.Build=$(shell git rev-parse --short HEAD)" -o iapetos_nagios4
+	go build -tags nagios4 -buildmode=c-shared -ldflags "-s -w -X main.Build=$(BUILD) $(PROMLDFLAGS)" -o iapetos_nagios4
 
 build_all: build_naemon build_nagios3 build_nagios4
 
